@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Request Form</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0051d2;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: inline-block;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #0051d2;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: #003d91;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Appointment Request Form</h1>
+    <form action="submit_phpcrm_form.php" method="post">
+  
+        <div class="form-group">
+            <h2>Contact Information</h2>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <h2>Appointment Information</h2>
+            <label for="date">Appointment Date</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label>Time interval</label><br>
+            <label class="radio-label"><input type="radio" id="morning" name="time_interval" value="Morning"> Morning</label>
+            <label class="radio-label"><input type="radio" id="afternoon" name="time_interval" value="Afternoon"> Afternoon</label>
+            <label class="radio-label"><input type="radio" id="evening" name="time_interval" value="Evening"> Evening</label><br><br>
+            
+            <label for="message">Appointment details</label>
+            <textarea id="message" name="message" rows="4" required></textarea><br>
+            
+            <label>Would you agree to reschedule the appointment, if needed?</label><br>
+            <label class="radio-label"><input type="radio" id="yes" name="attend" value="Yes"> Yes</label>
+            <label class="radio-label"><input type="radio" id="no" name="attend" value="No"> No</label><br><br>
+        </div>
+        
+        <input type="submit" value="Submit" class="btn">
+    </form>                                   
+</div>
+
+</body>
+</html>
