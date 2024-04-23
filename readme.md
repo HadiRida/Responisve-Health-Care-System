@@ -1,4 +1,4 @@
-Sure, here are the steps to run the project in a more organized format:
+
 
 **Prerequisites:**
 
