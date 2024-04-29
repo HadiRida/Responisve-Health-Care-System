@@ -1,4 +1,4 @@
-Sure, here are the steps to run the project in a more organized format:
+
 
 **Prerequisites:**
 
@@ -41,6 +41,7 @@ Sure, here are the steps to run the project in a more organized format:
 5. **Machine Learning Model Setup:**
    - Create "ML Disease Prediction - Smart Doctor" and "Drug Recommendation" to create trained model.
    - Place the model folder inside the 'healthcare' folder. The path should be "Responisve Health Care System\healthcare\model".
+   - Make sure to run the .ipynb on vs code to create .pkl files to run the model
 
 6. **Run Django Server:**
    - Open VS Code or your preferred editor.
