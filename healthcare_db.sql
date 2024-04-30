@@ -20,7 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `healthcare_db`
 --
-
 -- --------------------------------------------------------
 
 --
@@ -205,13 +204,7 @@ CREATE TABLE `core_user` (
 --
 
 INSERT INTO `core_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `is_patient`, `is_doctor`, `phonenumber`) VALUES
-(1, 'pbkdf2_sha256$320000$VlHDTmfgTjhPFkxz5JtJXz$kGQbdj52lpKcDB7UW4LnpT5OlbqpX1pC/H5wGV7DwuY=', '2022-08-05 01:22:24.881763', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2022-08-02 20:11:03.218100', 0, 0, NULL),
-(2, 'pbkdf2_sha256$320000$jIAd9OCFatJrycM03PU8Pp$qgRRQXJg6vIlTHEXAFQudNOt4TE36cu09F5VGOLK0OA=', '2022-08-05 01:21:36.409364', 0, 'usama', 'Usama', 'Subhani', 'usamasubhani@gmail.com', 0, 1, '2022-08-02 20:14:43.000000', 0, 1, '+923350616908'),
-(3, '123ab', NULL, 0, 'absar', 'Absar', 'Tariq', 'absar@gmail.com', 0, 1, '2022-08-02 20:15:11.000000', 1, 0, '+923004900662'),
-(4, 'pbkdf2_sha256$320000$AAfRQkfnTBVbYaLgZRWlBG$cxuQRlDIqnQKuARpuxd79dcIg0Lzxlm950fPGIkbBQ4=', NULL, 0, 'Shahzaib', '', '', 'bhatti@gmail.com', 0, 1, '2022-08-02 21:22:27.070748', 1, 0, NULL),
-(5, 'pbkdf2_sha256$320000$jIAd9OCFatJrycM03PU8Pp$qgRRQXJg6vIlTHEXAFQudNOt4TE36cu09F5VGOLK0OA=', '2022-08-05 01:12:58.142095', 0, 'shah', '', '', 's@gmail.com', 0, 1, '2022-08-02 21:38:37.402888', 1, 0, NULL),
-(6, 'pbkdf2_sha256$320000$dqVGUwNOUDfs4n91BTPf4i$3d2nOWEXon/dV2Y0xiVl8wO/9hJqtklyqSMtvGPfTgc=', NULL, 0, 'ferjad', '', '', 'ferjad@gmail.com', 0, 1, '2022-08-03 00:05:43.552224', 1, 0, NULL),
-(7, 'pbkdf2_sha256$320000$ab5hrdjqEIFfbGqn5E9DsP$fKZiX95Y65RtSjwPBUTzwHbR6z25sU9BmD1RhO92vvA=', '2022-08-04 15:51:28.280593', 0, 'ali', '', '', 'ali@gmail.com', 0, 1, '2022-08-03 23:15:38.305476', 1, 0, NULL);
+(1, 'pbkdf2_sha256$320000$VlHDTmfgTjhPFkxz5JtJXz$kGQbdj52lpKcDB7UW4LnpT5OlbqpX1pC/H5wGV7DwuY=', '2022-08-05 01:22:24.881763', 1, 'admin', '', '', 'admin@gmail.com', 1, 1, '2022-08-02 20:11:03.218100', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
