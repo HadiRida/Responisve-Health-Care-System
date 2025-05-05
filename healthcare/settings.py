@@ -2,24 +2,28 @@
 import os
 from pathlib import Path
 import os
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
-
-
 SECRET_KEY = 'django-insecure-&v2#s7e6xezhde)5fvxzp=$e+34f&=)&sg7d=@mj&rtes(h!k4'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
+
+# settings.py
+GOOGLE_MAPS_API_KEY = "AIzaSyAmPX5Gb1BFFviaa1iseCGMc9C3n_gX568"
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'healthcare',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,7 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
-    'healthcare'
 ]
 
 MIDDLEWARE = [
@@ -67,7 +70,7 @@ WSGI_APPLICATION = 'healthcare.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'healthcare_db',
+        'NAME': 'healthcare_db2',
         'USER': 'root',
         'HOST': '127.0.0.1',
         'PORT': '3307'
@@ -98,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Beirut'
 
 USE_I18N = True
 
@@ -120,6 +123,11 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'core.User'
 
 LOGIN_URL = 'login'
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'responsivehealthcaresupp@gmail.com'
+EMAIL_HOST_PASSWORD = 'npmf amoj gbwd sypm'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
