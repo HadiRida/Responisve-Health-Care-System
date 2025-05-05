@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>View Departments - Medical Center</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     /* Add your CSS styles here */
     body {
@@ -17,7 +19,7 @@
       background-color: #f7f7f7;
     }
     header, footer {
-      background-color: #333;
+      background-color: #0D47A1;
       color: #fff;
       text-align: center;
       padding: 20px 0;
@@ -45,7 +47,7 @@
       display: block;
     }
     .department-info h2 {
-      background-color: #333;
+      background-color: #0D47A1;
       color: #fff;
       padding: 15px;
       margin: 0;
@@ -62,7 +64,7 @@
       margin-bottom: 8px;
     }
     .contact-info {
-      background-color: #3f3f3f;
+      background-color: #0066cc;
       color: #fff;
       padding: 20px 0;
     }
@@ -73,62 +75,121 @@
     <h1>View Departments - Medical Center</h1>
   </header>
 
-  <main>
-    <div class="department-info">
-      <h2>Cardiology Department</h2>
-      <p>The Cardiology Department at Medical Center provides comprehensive cardiac care services, specializing in the diagnosis and treatment of various heart conditions.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Neurology Department</h2>
-      <p>The Neurology Department offers expert diagnosis and treatment for a wide range of neurological disorders, including stroke, epilepsy, and Parkinson's disease.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Oncology Department</h2>
-      <p>Our Oncology Department provides state-of-the-art cancer care, offering personalized treatment plans for various types of cancer, including chemotherapy, radiation therapy, and immunotherapy.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Pediatrics Department</h2>
-      <p>The Pediatrics Department specializes in providing compassionate and comprehensive medical care for infants, children, and adolescents, addressing a wide range of pediatric health issues.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Obstetrics & Gynecology Department</h2>
-      <p>Our Obstetrics & Gynecology Department offers comprehensive care for women's health, including prenatal care, childbirth services, gynecological exams, and family planning.</p>
-    </div>
-    
-    <div class="department-info">
-      <h2>Orthopedics Department</h2>
-      <p>The Orthopedics Department provides advanced musculoskeletal care, including diagnosis, treatment, and rehabilitation for orthopedic conditions such as fractures, arthritis, and sports injuries.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Ear, Nose, and Throat (ENT) Department</h2>
-      <p>The ENT Department specializes in the diagnosis and treatment of disorders related to the ear, nose, throat, and related structures, offering surgical and non-surgical interventions.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Dermatology Department</h2>
-      <p>Our Dermatology Department offers comprehensive skin care services, including diagnosis and treatment of skin conditions, cosmetic procedures, and skin cancer screenings.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Psychiatry Department</h2>
-      <p>The Psychiatry Department provides compassionate mental health care, including diagnosis, therapy, and medication management for a wide range of psychiatric disorders.</p>
-    </div>
-
-    <div class="department-info">
-      <h2>Radiology Department</h2>
-      <p>The Radiology Department offers advanced imaging services, including X-rays, MRI, CT scans, and ultrasound, to assist in the diagnosis and treatment of various medical conditions.</p>
-    </div>
-
-    <div class="department-info contact-info">
-      <h2>Contact Information</h2>
-      <p>Email: ResponsiveHealth@gmail.com</p>
-      <p>Phone: +961 12 345 678</p>
-      <p>Location: Beirut</p>
+  <main class="container py-5">
+    <h1 class="text-center mb-5" style="color: #003366;">Our Departments</h1>
+  
+    <div class="row g-4">
+      <!-- Cardiology -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Cardiology Department</h4>
+            <p class="card-text">Provides comprehensive cardiac care services, specializing in diagnosis and treatment of various heart conditions.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Neurology -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Neurology Department</h4>
+            <p class="card-text">Expert diagnosis and treatment for a wide range of neurological disorders, including stroke, epilepsy, and Parkinson's disease.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Oncology -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Oncology Department</h4>
+            <p class="card-text">State-of-the-art cancer care with personalized plans, offering chemotherapy, radiation therapy, and immunotherapy.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Pediatrics -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Pediatrics Department</h4>
+            <p class="card-text">Compassionate care for infants, children, and adolescents with a wide range of pediatric health services.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- OB-GYN -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Obstetrics & Gynecology</h4>
+            <p class="card-text">Comprehensive care for women's health including prenatal care, childbirth, exams, and family planning.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Orthopedics -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Orthopedics Department</h4>
+            <p class="card-text">Advanced care for musculoskeletal conditions like fractures, arthritis, and sports injuries.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- ENT -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">ENT Department</h4>
+            <p class="card-text">Diagnosis and treatment of ear, nose, and throat disorders with surgical and non-surgical interventions.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Dermatology -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Dermatology Department</h4>
+            <p class="card-text">Skin care services including cosmetic procedures and screenings for skin cancer.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Psychiatry -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Psychiatry Department</h4>
+            <p class="card-text">Mental health support through diagnosis, therapy, and medication management for psychiatric conditions.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Radiology -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title" style="color: #003366;">Radiology Department</h4>
+            <p class="card-text">Advanced imaging services including MRI, CT, X-rays, and ultrasound for diagnosis and treatment support.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Contact Info - Blue Card -->
+      <div class="col-12">
+        <div class="card shadow-sm" style="background-color: #0066cc; color: white;">
+          <div class="card-body">
+            <h4 class="card-title" style="color: white;">Contact Information</h4>
+            <p class="mb-1"><strong>Email:</strong> ResponsiveHealth@gmail.com</p>
+            <p class="mb-1"><strong>Phone:</strong> +961 12 345 678</p>
+            <p class="mb-0"><strong>Location:</strong> Beirut</p>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 

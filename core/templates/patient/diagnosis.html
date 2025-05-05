@@ -1,142 +1,125 @@
-{% extends 'patient/base.html' %} {% load static %} {% block body %}
+{% extends 'patient/base.html' %}
+{% load static %}
+{% block body %}
 
 <div id="content-wrapper">
   <div class="container-fluid">
-    <div class="row">
-      <div class="card-body">
-        <h4 class="text-center alert alert-info">Disease Prediction Panel</h4>
-
-        <br />
-
-        <form method="POST" action="" class="myform">
-          {% csrf_token %}
-
-          <input type="hidden" value="{{ user.id }}" name="" id="user_id" />
-          <div class="form-group row">
-            <label for="Symptom" class="col-sm-2 col-form-label"
-              >1st Symptom</label
-            >
-            <div class="col-sm-6">
-              <input
-                type="text"
-                class="form-control"
-                list="symp"
-                multiple="multiple"
-                name="Symptom1"
-                id="Symptom1"
-                placeholder="Please Choose Symptom"
-                required=""
-              />
-            </div>
-            <datalist id="symp">
-              {% for symp in symptoms %}
-              <option value="{{symp}}">{{symp}}</option>
-              {% endfor %}
-            </datalist>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white text-center">
+            <h4>Disease Prediction Panel</h4>
           </div>
+          <div class="card-body">
+            <form method="POST" action="/diagnosis/predict/" id="diagnosis-form" class="myform">
+              {% csrf_token %}
 
-          <div class="form-group row">
-            <label for="Symptom2" class="col-sm-2 col-form-label"
-              >2nd Symptom</label
-            >
-            <div class="col-sm-6">
-              <input
-                type="text"
-                class="form-control"
-                list="symp"
-                name="Symptom2"
-                id="Symptom2"
-                placeholder="Please Choose Symptom"
-                required=""
-              />
-            </div>
-            <datalist id="symp">
-              {% for symp in symptoms %}
-              <option value="{{symp}}">{{symp}}</option>
-              {% endfor %}
-            </datalist>
+              <input type="hidden" value="{{ user.id }}" name="user_id" id="user_id" />
+
+              <div id="symptom-container">
+                <div class="form-group row">
+                  <label for="Symptom1" class="col-sm-3 col-form-label">1st Symptom</label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      list="symp"
+                      name="Symptom1"
+                      id="Symptom1"
+                      placeholder="Enter your first symptom"
+                      required
+                    />
+                  </div>
+                  <datalist id="symp">
+                    {% for symp in symptoms %}
+                    <option value="{{ symp }}">{{ symp }}</option>
+                    {% endfor %}
+                  </datalist>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 text-right">
+                  <button type="button" class="btn btn-secondary" id="add_symptom_btn">
+                    Add Another Symptom
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 text-center">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Predict
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
+        </div>
 
-          <div class="form-group row">
-            <label for="Symptom3" class="col-sm-2 col-form-label"
-              >3rd Symptom</label
-            >
-            <div class="col-sm-6">
-              <input
-                type="text"
-                class="form-control"
-                list="symp"
-                name="Symptom3"
-                id="Symptom3"
-                placeholder="Please Choose Symptom"
-                required=""
-              />
-            </div>
-            <datalist id="symp">
-              {% for symp in symptoms %}
-              <option value="{{symp}}">{{symp}}</option>
-              {% endfor %}
-            </datalist>
+        <div id="result" class="mt-4">
+          <div class="alert alert-info text-center" role="alert" style="display: none;">
+            Your diagnosis result will appear here.
           </div>
-
-          <div class="form-group row">
-            <label for="Symptom4" class="col-sm-2 col-form-label"
-              >4th Symptom</label
-            >
-            <div class="col-sm-6">
-              <input
-                type="text"
-                class="form-control"
-                multiple="multiple"
-                list="symp"
-                id="Symptom4"
-                name="Symptom4"
-                placeholder="Please Choose Symptom"
-                required=""
-              />
-            </div>
-            <datalist id="symp">
-              {% for symp in symptoms %}
-              <option value="{{symp}}">{{symp}}</option>
-              {% endfor %}
-            </datalist>
-          </div>
-
-          <div class="form-group row">
-            <label for="Symptom5" class="col-sm-2 col-form-label"
-              >5th Symptom</label
-            >
-            <div class="col-sm-6">
-              <input
-                type="text"
-                class="form-control"
-                list="symp"
-                id="Symptom5"
-                name="Symptom5"
-                placeholder="Please Choose Symptom"
-                required=""
-              />
-            </div>
-            <datalist id="symp">
-              {% for symp in symptoms %}
-              <option value="{{symp}}">{{symp}}</option>
-              {% endfor %}
-            </datalist>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-sm-10 offset-sm-2">
-              <button type="button" class="btn btn-primary" id="predict_btn">
-                Predict
-              </button>
-            </div>
-          </div>
-
-          <div id="result" class="col-sm-10 offset-sm-3"></div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('add_symptom_btn').addEventListener('click', function () {
+    const container = document.getElementById('symptom-container');
+    const symptomCount = container.querySelectorAll('input').length + 1;
+
+    const newSymptomDiv = document.createElement('div');
+    newSymptomDiv.className = 'form-group row';
+    newSymptomDiv.innerHTML = `
+      <label for="Symptom${symptomCount}" class="col-sm-3 col-form-label">${symptomCount}th Symptom</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          class="form-control"
+          list="symp"
+          name="Symptom${symptomCount}"
+          id="Symptom${symptomCount}"
+          placeholder="Enter your ${symptomCount}th symptom"
+        />
+      </div>
+    `;
+    container.appendChild(newSymptomDiv);
+  });
+
+  document.getElementById('diagnosis-form').addEventListener('submit', function (event) {
+    event.preventDefault(); 
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+          <div class="alert alert-warning text-center" role="alert" style="font-size: 1rem; font-weight: 500;">
+            <i class="fas fa-info-circle"></i> Your diagnosis has been submitted successfully. It is currently pending approval by a doctor. You will be notified once it has been reviewed.
+          </div>`;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+          <div class="alert alert-danger text-center" role="alert" style="font-size: 1rem; font-weight: 500;">
+            An error occurred. Please try again.
+          </div>`;
+      });
+  });
+</script>
 
 {% endblock %}

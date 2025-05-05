@@ -4,166 +4,337 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Healthcare Platform</title>
 
+    <!-- Stylesheets -->
     <link href="{% static 'core/css/bootstrap.css' %}" rel="stylesheet" />
     <link href="{% static 'core/css/themify-icons.css' %}" rel="stylesheet" />
-
-    <link
-      href="{% static 'core/vendors/fontawesome/css/all.min.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'core/vendors/fontawesome/css/all.min.css' %}" rel="stylesheet" />
     <link href="{% static 'core/css/style.css' %}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="{% static 'core/css/about.css' %}" rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+
+      /* Hero Area Animation */
+      .hero_area h1,
+      .hero_area p {
+        animation: fadeInUp 1.5s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Navbar Area */
+      .navbar-brand img {
+        max-width: 200px;
+      }
+
+      /* Button Hover Animation */
+      .hero_area a.btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        background-color: #0056b3 !important;
+        transition: all 0.3s ease;
+      }
+
+      /* Services Section */
+      .service-box {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 15px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .service-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background-color: #f1f1f1;
+      }
+
+      /* Footer Section */
+      .footer-area {
+        background-color: #343a40;
+        color: white;
+        padding: 40px 0;
+      }
+
+      .footer-area a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .footer-area a:hover {
+        text-decoration: underline;
+      }
+
+      /* Scroll-to-Top Button */
+      #scrollToTopBtn {
+        cursor: pointer;
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50%;
+        font-size: 16px;
+      }
+
+      #scrollToTopBtn:hover {
+        background-color: #0056b3;
+      }
+
+      @media (max-width: 768px) {
+        .hero_area h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero_area p {
+          font-size: 1rem;
+        }
+      }
+
+      .hero_area {
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/aboutbg.png') center center/cover no-repeat;
+        height: 100vh;
+        color: white;
+      }
+
+      .hero_area h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .hero_area p {
+        font-size: 1.2rem;
+        margin: 20px 0;
+        color: rgb(143, 216, 240);
+      }
+    </style>
   </head>
   <body>
+
+    <!-- Header Section -->
     <header class="header_area">
-      <div class="top_menu row m0"></div>
-      <div class="main_menu">
-        <nav class="navbar navbar-expand-lg navbar-light">
-          <div class="container">
-            <a class="navbar-brand logo_h" style="width: 200px;" href="/"
-              ><img src="{% static 'core/img/logo1.png' %}" alt=""
-            /></a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <div
-              class="collapse navbar-collapse offset"
-              id="navbarSupportedContent"
-            >
-              <ul class="nav navbar-nav menu_nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'doctors' %}">Doctors</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'reg' %}">Register</a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-
-    <section class="banner_area">
-      <div class="banner_inner d-flex align-items-center">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
         <div class="container">
-          <div
-            class="banner_content d-md-flex justify-content-between align-items-center"
-          >
-            <div class="mb-3 mb-md-0">
-              <h2 style="margin-top: 50px;">About Us</h2>
-            </div>
-           
-          </div>
-        </div>
-      </div>
-    </section>
+          <!-- Logo -->
+          <a class="navbar-brand logo_h" href="/">
+            <img src="{% static 'core/img/logo1.png' %}" alt="Logo">
+          </a>
 
-    <section class="about-area">
-      <div class="container">
-        <div class="row align-items-center">
-          <div
-            class="col-md-10 offset-md-1 col-lg-6 offset-lg-6 offset-xl-7 col-xl-5"
-          >
-            <div class="about-content">
-              <h4>
-                "Caring for Your Well-being:<br />
-                Our Commitment to Excellence"<br />
-              </h4>
-              <p>
-                we prioritize your health above all else. Our dedicated team is committed to providing personalized care tailored to your unique needs, ensuring excellence in every aspect of your well-being journey.
-              </p>
+          <!-- Hamburger button for mobile -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-              <a class="link_one" href="#">learn more</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer-area area-padding-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-sm-6 single-footer-widget">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+          <!-- Collapsible navigation menu -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto text-center">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'filter_doctors' %}?specialty=all">Doctors</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'reg' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
             </ul>
           </div>
-          <div class="col-lg-4 col-md-6 single-footer-widget">
-            <h4>Newsletter</h4>
-            <p>Subscribe to our Newsletter</p>
-            <div class="form-wrap" id="mc_embed_signup">
-              <form
-                target="_blank"
-                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                method="get"
-                class="form-inline"
-              >
-                <input
-                  class="form-control"
-                  name="EMAIL"
-                  placeholder="Your Email Address"
-                  onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Your Email Address'"
-                  required=""
-                  type="email"
-                />
-                <button class="click-btn btn btn-default">
-                  <i class="ti-arrow-right"></i>
-                </button>
-                <div style="position: absolute; left: -5000px">
-                  <input
-                    name="b_36c4fd991d266f23781ded980_aefe40901a"
-                    tabindex="-1"
-                    value=""
-                    type="text"
-                  />
-                </div>
+        </div>
+      </nav>
+    </header>
 
-                <div class="info"></div>
-              </form>
+    <!-- Hero Section -->
+    <section
+      class="hero_area"
+      style="position: relative; background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "core/img/aboutbg.png" %}') center center/cover no-repeat; height: 100vh; color: white;"
+    >
+      <div class="container h-100 d-flex align-items-center">
+        <div class="row align-items-center w-100">
+          <div class="col-lg-6 text-center text-lg-left">
+            <h1 style="font-size: 3.5rem; font-weight: 700; line-height: 1.2;">Welcome to Our Healthcare Platform</h1>
+            <p style="font-size: 1.2rem; margin: 20px 0; color: rgb(143, 216, 240);">"Caring for your well-being with expertise and compassion."</p>
+            <a href="{% url 'reg' %}" class="btn btn-primary btn-lg" style="padding: 15px 40px; background-color: #007bff; border: none; font-size: 1rem; border-radius: 50px; transition: all 0.3s ease;">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section style="margin-top: 50px;">
+      <div class="container text-center">
+        <h2 class="mb-5" style="font-weight: bold; font-size: 2.5rem;">About Us</h2>
+        <div class="row">
+          <!-- Mission Box -->
+          <div class="col-lg-6 col-md-6 mb-4" data-aos="fade-up">
+            <div class="service-box text-left h-100">
+              <h4 class="mb-3 text-primary"><i class="fas fa-bullseye mr-2"></i>Our Mission</h4>
+              <p>
+                We aim to revolutionize healthcare by providing users with instant symptom analysis, tailored drug suggestions, and smart recommendations through accessible AI technology.
+              </p>
+            </div>
+          </div>
+
+          <!-- Vision Box -->
+          <div class="col-lg-6 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-box text-left h-100">
+              <h4 class="mb-3 text-success"><i class="fas fa-eye mr-2"></i>Our Vision</h4>
+              <p>
+                We envision a smarter, faster healthcare system where AI delivers quick and accurate insights, making high-quality care accessible to everyone—anytime, anywhere.
+              </p>
             </div>
           </div>
         </div>
-        <div class="row footer-bottom d-flex justify-content-between">
-          <p class="col-lg-8 col-sm-12 footer-text m-0">
-            Copyright &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            All rights reserved
-          </p>
-          <div class="col-lg-4 col-sm-12 footer-social">
-            <a href=""><i class="fab fa-facebook-f"></i></a>
-            <a href=""><i class="fab fa-twitter"></i></a>
-            <a href=""><i class="fab fa-dribbble"></i></a>
-            <a href=""><i class="fab fa-linkedin"></i></a>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-area py-5">
+      <div class="container text-center">
+        <h2 class="mb-4" style="font-weight: bold; font-size: 2.5rem;">Our Services</h2>
+        <p class="mb-5">We provide a wide range of medical services to meet your needs.</p>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+            <div class="service-box text-center">
+              <i class="fas fa-stethoscope fa-3x mb-3 text-primary"></i>
+              <h4>General Consultation</h4>
+              <p>Expert advice and personalized care for all your health concerns.</p>
+            </div>
           </div>
+          <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-box text-center">
+              <i class="fas fa-heartbeat fa-3x mb-3 text-danger"></i>
+              <h4>Drug Recommendation</h4>
+              <p>Get to know the drugs and medical care you need for your diagnosis.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-box text-center">
+              <i class="fas fa-user-md fa-3x mb-3 text-success"></i>
+              <h4>Specialist Doctors</h4>
+              <p>Access to a wide range of specialists to address your unique needs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-primary text-white pt-5 pb-3 mt-5" style="background-color: #0066cc;">
+      <div class="container">
+        <div class="row">
+          <!-- Quick Links -->
+          <div class="col-md-4">
+            <h4 class="font-weight-bold mb-3">Quick Links</h4>
+            <ul class="list-unstyled">
+              <li><a href="/" class="text-white" style="text-decoration: none;">Home</a></li>
+              <li><a href="/about" class="text-white" style="text-decoration: none;">About Us</a></li>
+              <li><a href="{% url 'filter_doctors' %}?specialty=all" class="text-white" style="text-decoration: none;">Doctors</a></li>
+              <li><a href="{% url 'privacy' %}" class="text-white" style="text-decoration: none;">Privacy Policy</a></li>
+              <li><a href="{% url 'terms_of_service' %}" class="text-white" style="text-decoration: none;">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="col-md-4">
+            <h4 class="font-weight-bold mb-3">Contact Information</h4>
+            <ul class="list-unstyled">
+              <li><a href="mailto:support@example.com" class="text-white" style="text-decoration: none;">Responsivehealthcaresystem@gmail.com</a></li>
+              <li><a href="tel:+123456789" class="text-white" style="text-decoration: none;">+1 234 567 89</a></li>
+              <li>Beirut, Lebanon</li>
+            </ul>
+          </div>
+
+          <!-- Social Media -->
+          <div class="col-md-4">
+            <h4 class="font-weight-bold mb-3">Follow Us</h4>
+            <div class="d-flex flex-column align-items-start">
+              <div class="d-flex align-items-center mb-3">
+                <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-facebook-f"></i></a>
+                <span class="text-white">Facebook - Responsive Healthcare System</span>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-twitter"></i></a>
+                <span class="text-white">Twitter - Responsive Healthcare System</span>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-linkedin"></i></a>
+                <span class="text-white">LinkedIn - Responsive Healthcare System</span>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-instagram"></i></a>
+                <span class="text-white">Instagram - Responsive Healthcare System</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="row footer-bottom d-flex justify-content-center text-center mt-4" style="border-top: 1px solid #fff; padding-top: 15px;">
+          <p class="footer-text m-0">
+            &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
+
+    <!-- Scroll-to-Top Button -->
+    <button id="scrollToTopBtn" onclick="topFunction()">↑</button>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      AOS.init();
+
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+      window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+          scrollToTopBtn.style.display = 'block';
+        } else {
+          scrollToTopBtn.style.display = 'none';
+        }
+      };
+
+      function topFunction() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    </script>
   </body>
 </html>

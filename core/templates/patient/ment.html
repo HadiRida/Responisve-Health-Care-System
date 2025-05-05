@@ -1,4 +1,5 @@
-{% extends 'patient/base.html' %} {% block body %}
+{% extends 'patient/base.html' %}
+{% block body %}
 
 <div id="content-wrapper">
   <div class="container-fluid">
@@ -8,59 +9,76 @@
       </li>
     </ol>
 
-    <div class="row">
-      <div class="col-sm-8">
-        <h4 class="text-center alert alert-info">List Of Disease Diagnosed</h4>
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="text-center alert alert-info">List Of Disease Diagnosed</h4>
 
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Patient</th>
-              <th scope="col">Status</th>
-              <th scope="col">Day</th>
-              <th scope="col">Time</th>
-              <th scope="col">Doctor</th>
-              <th scope="col">Doctor Contact</th>
-            </tr>
-          </thead>
-          <tbody>
-            <input type="hidden" value="{{ user.id }}" name="" id="user_id" />
+            <table class="table table-bordered table-hover text-center">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Patient</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Day</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Doctor</th>
+                  <th scope="col">Doctor Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <input type="hidden" value="{{ user.id }}" id="user_id" />
 
-            {% for d in ment %}
-            <tr>
-              <td>{{ d.id }}</td>
+                {% for d in ment %}
+                <tr>
+                  <td class="align-middle">{{ d.id }}</td>
+                  <td class="align-middle">{{ d.patient.profile.full_name }}</td>
+                  <td class="align-middle">
+                    {% if d.approved == False %}
+                    <span class="badge badge-warning text-dark">Pending</span>
+                    {% elif d.done %}
+                    <span class="badge badge-success text-light">Done</span>
+                    {% else %}
+                    <span class="badge badge-info text-light">In Process</span>
+                    {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    {% if d.ment_day == None %}
+                    <span class="badge badge-danger">Not Set</span>
+                    {% else %}
+                    {{ d.ment_day|date:"M d, Y" }}
+                    {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    {% if d.time == None %}
+                    <span class="badge badge-danger">Not Set</span>
+                    {% else %}
+                    {{ d.time }}
+                    {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    {% if d.doctor.profile.full_name == Null %}
+                    <span class="badge badge-secondary">None</span>
+                    {% else %}
+                    {{ d.doctor.profile.full_name }}
+                    {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    {% if d.doctor.profile.contact_info == Null %}
+                    <span class="badge badge-secondary">None</span>
+                    {% else %}
+                    {{ d.doctor.profile.contact_info }}
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
 
-              <td>{{ d.patient.username }}</td>
-
-              {% if d.approved == False %}
-              <td>Pending</td>
-              {% else %}
-              <td>{{ d.medicine }}</td>
-              {% endif %} {% if d.ment_day == None %}
-              <td>Not Set</td>
-              {% else %}
-              <td>{{ d.ment_day|date:"M d, Y" }}</td>
-              {% endif %} {% if d.time == None %}
-              <td>Not Set</td>
-              {% else %}
-              <td>{{ d.time }}</td>
-              {% endif %} {% if d.doctor.username == Null %}
-              <td>None</td>
-              {% else %}
-              <td>{{ d.doctor.username }}</td>
-              {% endif %} {% if d.doctor.phonenumber == Null %}
-              <td>None</td>
-              {% else %}
-              <td>{{ d.doctor.phonenumber }}</td>
-              {% endif %}
-            </tr>
-
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+            <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

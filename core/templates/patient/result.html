@@ -1,132 +1,155 @@
-{% extends 'patient/base.html' %} {% block body %}
+{% extends 'patient/base.html' %} 
+{% block body %}
 
 <div id="content-wrapper">
   <div class="container-fluid">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb bg-light p-3 rounded">
       <li class="breadcrumb-item">
-        <a href="">Medical Check Up Panel</a>
+        <a href="#" class="text-decoration-none text-primary">Medical Check-Up Panel</a>
       </li>
     </ol>
 
-    <div class="row">
-      <div class="col-sm-8">
-        <h4 class="text-center alert alert-info">
-          List Of Disease Diagnosised
-        </h4>
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h3 class="text-info">List of Diseases Diagnosed</h3>
+        <hr class="w-50 mx-auto">
+      </div>
+    </div>
 
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Disease</th>
-              <th scope="col">Medicine</th>
-              <th scope="col">Appointment</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <input type="hidden" value="{{ user.id }}" name="" id="user_id" />
-
-            {% for d in disease %}
-            <tr>
-              <td>{{ d.id }}</td>
-              <td>{{ d.patient.username }}</td>
-              <td>{{ d.disease }}</td>
-              {% if d.medicine == "" %}
-              <td>Yet Recommended</td>
-              {% else %}
-              <td>{{ d.medicine }}</td>
-              {% endif %}
-              <td>
-                <input
-                  class="btn btn-success btn-sm btn_ment"
-                  type="button"
-                  data-sid="{{d.id}}"
-                  value="Request"
-                />
-              </td>
-            </tr>
-
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
-
-        <div class="edit-form">
-          <div class="modal" tabindex="-1" role="dialog" id="patient_Modal">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5
-                    class="modal-title text-primary"
-                    style="text-align: center"
-                  >
-                    Candidate Information
-                  </h5>
-                </div>
-                <div class="modal-body">
-                  <form id="contactForm" name="contact" role="form">
-                    <input
-                      type="hidden"
-                      name=""
-                      value=""
-                      class="sid"
-                      id="bfid"
-                    />
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label for="name">First Name</label>
-                        <input
-                          type="text"
-                          name=""
-                          class="form-control"
-                          id="bffname"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="name">Last Name</label>
-                        <input
-                          type="text"
-                          name=""
-                          class="form-control"
-                          id="bflname"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="name">Email</label>
-                        <input
-                          type="email"
-                          name=""
-                          class="form-control"
-                          id="bfemail"
-                        />
-                      </div>
-                    </div>
-                    <div class="modal-footer">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover text-center" id="diseaseTable">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Disease</th>
+                    <th scope="col">Diagnosis by Doctor</th>
+                    <th scope="col">Symptoms</th>
+                    <th scope="col">Medicine</th>
+                    <th scope="col" onclick="sortTableByDate()">Appointment</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody">
+                  <input type="hidden" value="{{ user.id }}" id="user_id" />
+                  {% for d in disease %}
+                  <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ d.patient.profile.full_name }}</td>
+                    <td>
+                      {% if d.is_approved %}
+                        {{ d.disease }}
+                      {% else %}
+                        <span class="badge badge-warning">Waiting for doctor's approval</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if d.disease_by_doctor %}
+                        <span class="badge badge-primary">{{ d.disease_by_doctor }}</span>
+                      {% else %}
+                        <span class="badge badge-warning">No diagnosis available</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <ul class="list-unstyled mb-0 text-left">
+                        <li>{{ d.s1 }}</li>
+                        <li>{{ d.s2 }}</li>
+                        <li>{{ d.s3 }}</li>
+                        <li>{{ d.s4 }}</li>
+                        <li>{{ d.s5 }}</li>
+                        {% if d.additional_symptoms %}
+                          {% for symptom in d.additional_symptoms %}
+                            <li>{{ symptom }}</li>
+                          {% endfor %}
+                        {% endif %}
+                      </ul>
+                    </td>
+                    <td>
+                      {% if not d.medicine %}
+                        <span class="badge badge-danger">Yet to be recommended</span>
+                      {% else %}
+                        <span class="badge badge-success">{{ d.medicine }}</span>
+                      {% endif %}
+                    </td>
+                    <td data-date="{{ d.created_on|date:'Y-m-d H:i:s' }}">
                       <button
+                        class="btn btn-sm btn-outline-success btn_ment"
                         type="button"
-                        class="btn btn-default"
-                        data-dismiss="modal"
-                        id="fmbutton"
+                        data-sid="{{ d.id }}"
                       >
-                        Close
+                        Request
                       </button>
-                      <input
-                        type="button"
-                        value="Save"
-                        class="btn btn-success save-student"
-                        id="bfsave"
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div> 
           </div>
         </div>
       </div>
     </div>
+
+    <div id="ment_result" class="col-12 mt-4"></div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          sortTableByDate();
+
+          const user_id = document.getElementById('user_id').value; 
+
+          const buttons = document.querySelectorAll('.btn_ment');
+          buttons.forEach(button => {
+              button.addEventListener('click', function () {
+                  const prediction_id = this.getAttribute('data-sid');
+                  console.log('Button Appointment Clicked');
+                  console.log('Prediction ID is', prediction_id);
+                  console.log('User ID is', user_id);
+
+                  fetch('/MakeMent', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                      },
+                      body: `disease=${prediction_id}&userid=${user_id}`,
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      console.log('Appointment Status Is', data.status);
+
+                      const resultDiv = document.getElementById('ment_result');
+                      if (data.status === 'saved') {
+                          resultDiv.innerHTML = '<div class="alert alert-success">Appointment Request Sent Successfully!</div>';
+                      } else if (data.status === 'exist') {
+                          resultDiv.innerHTML = '<div class="alert alert-warning">Appointment Already Exists!</div>';
+                      } else {
+                          resultDiv.innerHTML = '<div class="alert alert-danger">Something Went Wrong. Please Try Again!</div>';
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                  });
+              });
+          });
+      });
+
+      function sortTableByDate() {
+          const table = document.getElementById("diseaseTable");
+          const rows = Array.from(table.querySelectorAll("tbody tr"));
+          const sortedRows = rows.sort((rowA, rowB) => {
+              const dateA = new Date(rowA.querySelector("td[data-date]").getAttribute("data-date"));
+              const dateB = new Date(rowB.querySelector("td[data-date]").getAttribute("data-date"));
+              return dateB - dateA; 
+          });
+
+          const tbody = table.querySelector("tbody");
+          sortedRows.forEach(row => tbody.appendChild(row));
+      }
+    </script>
+
   </div>
 </div>
 

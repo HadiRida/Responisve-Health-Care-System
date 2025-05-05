@@ -95,6 +95,7 @@
         </li>
 
         {% if status == '1' %}
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'diagnosis' %}">
             <i class="fas fa-microscope text-primary"></i>
@@ -179,3 +180,6 @@
     {% include 'patient/ajax.html' %} {% block javascript %}{% endblock %}
   </body>
 </html>
+
+
+

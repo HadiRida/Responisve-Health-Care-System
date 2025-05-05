@@ -1,0 +1,237 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center font-weight-bold">
+                    Create Your Doctor Profile
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'create_doctorprofile' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="full_name" class="font-weight-semibold">Full Name</label>
+                            <input 
+                                type="text" 
+                                id="full_name" 
+                                name="full_name" 
+                                class="form-control" 
+                                placeholder="Enter your full name" 
+                                required>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="form-group">
+                            <label for="contact_info" class="font-weight-semibold">Contact Information</label>
+                            <input 
+                                type="text" 
+                                id="contact_info" 
+                                name="contact_info" 
+                                class="form-control" 
+                                placeholder="Enter your phone number" 
+                                required>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="form-group">
+                            <label for="gender" class="font-weight-semibold">Gender</label>
+                            <select 
+                                class="form-control" 
+                                id="gender" 
+                                name="gender" 
+                                required>
+                                <option value="" disabled selected>Select your gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="form-group">
+                            <label for="birth_date" class="font-weight-semibold">Date of Birth</label>
+                            <input 
+                                type="date" 
+                                id="birth_date" 
+                                name="birth_date" 
+                                class="form-control" 
+                                min="1950-01-01" 
+                                max="2024-12-31" 
+                                oninput="calculateAge()" 
+                                required>
+                        </div>
+
+                        <!-- Age -->
+                        <div class="form-group">
+                            <label for="age" class="font-weight-semibold">Age</label>
+                            <input 
+                                type="number" 
+                                id="age" 
+                                name="age" 
+                                class="form-control" 
+                                placeholder="Age" 
+                                readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country" class="font-weight-semibold">Country</label>
+                            <input type="text" class="form-control" name="country" placeholder="Country" required="required">
+                        </div>
+
+                        <!-- Region -->
+                        <div class="form-group">
+                            <label for="region" class="font-weight-semibold">Region</label>
+                            <input type="text" class="form-control" name="region" placeholder="Region" required="required">
+                        </div>
+                        
+
+                        <!-- Specialty -->
+                        <div class="form-group">
+                            <label for="specialty" class="font-weight-semibold">Specialty</label>
+                            <select 
+                                id="specialty" 
+                                name="specialty" 
+                                class="form-control" 
+                                required>
+                                <option value="" disabled selected>Select your specialty</option>
+                                <option value="allergy_immunology">Allergy and Immunology</option>
+                                <option value="anesthesiology">Anesthesiology</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="cardiothoracic_surgery">Cardiothoracic Surgery</option>
+                                <option value="critical_care">Critical Care Medicine</option>
+                                <option value="dermatology">Dermatology</option>
+                                <option value="emergency_medicine">Emergency Medicine</option>
+                                <option value="endocrinology">Endocrinology</option>
+                                <option value="family_medicine">Family Medicine</option>
+                                <option value="gastroenterology">Gastroenterology</option>
+                                <option value="general_practice">General Practice</option>
+                                <option value="general_surgery">General Surgery</option>
+                                <option value="geriatrics">Geriatrics</option>
+                                <option value="hematology">Hematology</option>
+                                <option value="infectious_disease">Infectious Disease</option>
+                                <option value="internal_medicine">Internal Medicine</option>
+                                <option value="nephrology">Nephrology</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="neurosurgery">Neurosurgery</option>
+                                <option value="nuclear_medicine">Nuclear Medicine</option>
+                                <option value="obstetrics_gynecology">Obstetrics and Gynecology</option>
+                                <option value="oncology">Oncology</option>
+                                <option value="ophthalmology">Ophthalmology</option>
+                                <option value="orthopedic_surgery">Orthopedic Surgery</option>
+                                <option value="otolaryngology">Otolaryngology (ENT)</option>
+                                <option value="palliative_care">Palliative Care</option>
+                                <option value="pathology">Pathology</option>
+                                <option value="pediatrics">Pediatrics</option>
+                                <option value="plastic_surgery">Plastic Surgery</option>
+                                <option value="psychiatry">Psychiatry</option>
+                                <option value="pulmonology">Pulmonology</option>
+                                <option value="radiology">Radiology</option>
+                                <option value="rheumatology">Rheumatology</option>
+                                <option value="sports_medicine">Sports Medicine</option>
+                                <option value="thoracic_surgery">Thoracic Surgery</option>
+                                <option value="urology">Urology</option>
+                                <option value="vascular_surgery">Vascular Surgery</option>
+                            </select>
+                        </div>
+
+                        <!-- Medical License Number -->
+                        <div class="form-group">
+                            <label for="license_number" class="font-weight-semibold">Medical License Number</label>
+                            <input 
+                                type="text" 
+                                id="license_number" 
+                                name="license_number" 
+                                class="form-control" 
+                                placeholder="Enter your license number" 
+                                required>
+                        </div>
+
+                        <!-- Years of Experience -->
+                        <div class="form-group">
+                            <label for="experience_years" class="font-weight-semibold">Years of Experience</label>
+                            <input 
+                                type="number" 
+                                id="experience_years" 
+                                name="experience_years" 
+                                class="form-control" 
+                                placeholder="Enter years of experience" 
+                                required>
+                        </div>
+
+                        <!-- Medical School -->
+                        <div class="form-group">
+                            <label for="medical_school" class="font-weight-semibold">Medical School</label>
+                            <input 
+                                type="text" 
+                                id="medical_school" 
+                                name="medical_school" 
+                                class="form-control" 
+                                placeholder="Enter your medical school" 
+                                required>
+                        </div>
+
+                        <!-- Hospital Affiliation -->
+                        <div class="form-group">
+                            <label for="hospital_affiliation" class="font-weight-semibold">Hospital Affiliation</label>
+                            <input 
+                                type="text" 
+                                id="hospital_affiliation" 
+                                name="hospital_affiliation" 
+                                class="form-control" 
+                                placeholder="Enter your hospital affiliation" 
+                                required>
+                        </div>
+
+                        <!-- Profile Picture Upload -->
+                        <div class="form-group">
+                            <label for="avatar" class="font-weight-semibold">Profile Picture</label>
+                            <input 
+                                type="file" 
+                                id="avatar" 
+                                class="form-control" 
+                                name="avatar" 
+                                accept="image/*">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Profile</button>
+                        </div>
+                    </form>
+
+                    {% if messages %}
+                        <div class="mt-3">
+                            {% for message in messages %}
+                                <div class="alert alert-success text-center">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calculateAge() {
+            const birthDate = document.getElementById('birth_date').value;
+            const ageField = document.getElementById('age');
+            
+            if (birthDate) {
+                const birth = new Date(birthDate);
+                const today = new Date();
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                ageField.value = age;
+            } else {
+                ageField.value = '';
+            }
+        }
+    </script>
+</div>
+{% endblock %}

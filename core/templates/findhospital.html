@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Nearby Hospitals</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Reset and General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-width: 1200px;
+      height: 85%;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    /* Left Side (Map Section) */
+    #map {
+      width: 60%;
+      height: 100%;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    /* Right Side (Hospital List Section) */
+    .right-panel {
+      width: 40%;
+      padding: 30px;
+      background-color: #ffffff;
+      overflow-y: auto;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .right-panel h1 {
+      font-size: 28px;
+      color: #4a4a4a;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .right-panel button {
+      background: linear-gradient(90deg, #00b8d4, #007bb5);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      width: 100%;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-panel button:hover {
+      background: linear-gradient(90deg, #007bb5, #00b8d4);
+    }
+
+    .right-panel .hospital-item {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .right-panel .hospital-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .hospital-item h3 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .hospital-item p {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .hospital-item button {
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .hospital-item button:hover {
+      background: #0056b3;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 16px;
+      display: none;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+      }
+
+      #map {
+        width: 100%;
+        height: 300px;
+      }
+
+      .right-panel {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .right-panel h1 {
+        font-size: 24px;
+      }
+
+      .right-panel .hospital-item {
+        padding: 15px;
+      }
+
+      .hospital-item h3 {
+        font-size: 18px;
+      }
+
+      .right-panel button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+
+      .no-results {
+        font-size: 14px;
+      }
+    }
+
+    /* For very small screens like phones in portrait mode */
+    @media (max-width: 480px) {
+      .right-panel h1 {
+        font-size: 22px;
+      }
+
+      .right-panel button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+
+      .right-panel .hospital-item h3 {
+        font-size: 16px;
+      }
+
+      .right-panel .hospital-item p {
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      #map {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Left Panel (Map Section) -->
+    <div id="map"></div>
+
+    <!-- Right Panel (Hospital List Section) -->
+    <div class="right-panel">
+      <h1>Nearby Hospitals</h1>
+      <button id="locate-me">Use My Location</button>
+      <div id="hospital-list"></div>
+      <p id="no-results" class="no-results">No hospitals found nearby.</p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    let map, userMarker, userLat, userLon;
+
+    // Initialize the map
+    function initMap() {
+      map = L.map('map').setView([0, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+    }
+
+    // Adjust map height based on screen size
+    function adjustMapHeight() {
+      const mapElement = document.getElementById("map");
+      const viewportHeight = window.innerHeight;
+      const rightPanelHeight = document.querySelector('.right-panel').offsetHeight;
+      const mapHeight = viewportHeight - rightPanelHeight;
+      mapElement.style.height = `${mapHeight}px`;
+    }
+
+    // Locate the user and fetch nearby hospitals
+    document.getElementById("locate-me").addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            userLat = position.coords.latitude;
+            userLon = position.coords.longitude;
+
+            map.setView([userLat, userLon], 13);
+
+            if (userMarker) {
+              userMarker.setLatLng([userLat, userLon]);
+            } else {
+              userMarker = L.marker([userLat, userLon], {
+                icon: L.icon({
+                  iconUrl: 'https://cdn-icons-png.flaticon.com/64/684/684908.png',
+                  iconSize: [40, 40]
+                })
+              }).addTo(map)
+                .bindPopup("Your Location")
+                .openPopup();
+            }
+
+            adjustMapHeight(); // Adjust map height after locating
+            searchHospitals(userLat, userLon);
+          },
+          (error) => {
+            console.error("Geolocation Error:", error);
+            alert("Unable to fetch your location.");
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    });
+
+    // Fetch nearby hospitals
+    function searchHospitals(lat, lon) {
+      const radius = 20000; // 20 km radius
+      const url = `https://overpass-api.de/api/interpreter?data=[out:json];node["amenity"="hospital"](around:${radius},${lat},${lon});out;`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const hospitalList = document.getElementById("hospital-list");
+          const noResultsMessage = document.getElementById("no-results");
+
+          hospitalList.innerHTML = '';
+          noResultsMessage.style.display = "none";
+
+          if (data.elements.length === 0) {
+            noResultsMessage.style.display = "block";
+            return;
+          }
+
+          data.elements.forEach(hospital => {
+            const { lat, lon, tags } = hospital;
+            const hospitalName = tags.name || "Unnamed Hospital";
+            const address = tags["addr:street"] || "Address not available";
+            const phone = tags.phone || "No contact available";
+            const openingHours = tags["opening_hours"] || "Not available";
+
+            const hospitalItem = document.createElement("div");
+            hospitalItem.className = "hospital-item";
+            hospitalItem.innerHTML = `
+              <h3>${hospitalName}</h3>
+              <p><strong>Address:</strong> ${address}</p>
+              <p><strong>Phone:</strong> ${phone}</p>
+              <p><strong>Opening Hours:</strong> ${openingHours}</p>
+              <button onclick="getDirections(${lat}, ${lon})">Get Directions</button>
+            `;
+
+            hospitalList.appendChild(hospitalItem);
+
+            L.marker([lat, lon], {
+              icon: L.icon({
+                iconUrl: 'https://cdn-icons-png.flaticon.com/64/684/684908.png',
+                iconSize: [30, 30]
+              })
+            }).addTo(map)
+              .bindPopup(`<b>${hospitalName}</b><br>${address}`)
+              .openPopup();
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching hospital data:", error);
+          alert("Error fetching data. Please try again.");
+        });
+    }
+
+    // Get directions to the selected hospital
+    function getDirections(hospLat, hospLon) {
+      if (userLat && userLon) {
+        const googleMapsUrl = `https://www.google.com/maps/dir/${userLat},${userLon}/${hospLat},${hospLon}`;
+        window.open(googleMapsUrl, "_blank");
+      } else {
+        alert("Please use 'Use My Location' first.");
+      }
+    }
+
+    initMap();
+    window.addEventListener("resize", adjustMapHeight); // Adjust map height on window resize
+  </script>
+</body>
+</html>

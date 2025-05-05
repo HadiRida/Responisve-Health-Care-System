@@ -2,370 +2,296 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  
+  <!-- Theme CSS -->
+  <link href="{% static 'core/css/bootstrap.css' %}" rel="stylesheet" />
+  <link href="{% static 'core/css/themify-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'core/vendors/fontawesome/css/all.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'core/css/style.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <title>Our Doctors</title>
 
-    <link href="{% static 'core/css/bootstrap.css' %}" rel="stylesheet" />
-    <link href="{% static 'core/css/themify-icons.css' %}" rel="stylesheet" />
-    <link
-      href="{% static 'core/vendors/fontawesome/css/all.min.css' %}"
-      rel="stylesheet"
-    />
-    <link href="{% static 'core/css/style.css' %}" rel="stylesheet" />
-  </head>
-  <body>
+  <style>
+
+    /* Dropdown Styling */
+/* Dropdown Styling */
+.filter-dropdown {
+  width: 40%; /* Reduced width to shrink from the right */
+  height: 50px; /* Keeps the original height */
+  border: 2px solid #007bff;
+  font-size: 17px; /* Same font size */
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  border-radius: 0; /* No border radius */
+}
+
+.filter-dropdown:focus {
+  border-color: #0056b3;
+  box-shadow: none;
+}
+
+/* Button Styling */
+.btn-search {
+  width: 10%; /* Slightly narrower to reduce from the right */
+  height: 50px; /* Matches dropdown height */
+  background-color: #007bff;
+  border: 2px solid #0056b3;
+  color: #fff;
+  font-size: 17px; /* Matches dropdown font size */
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 0; /* No border radius */
+}
+
+.btn-search:hover {
+  background-color: #0056b3;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+/* Align filter to the left */
+.form-inline {
+  justify-content: flex-start; /* Left-align */
+  align-items: center; /* Vertically align button and dropdown */
+}
+
+.input-group {
+  margin-right: 10px; /* Adds spacing between dropdown and button */
+}
+
+ /* navbar Area  */
+    .navbar-brand img {
+      max-width: 200px;
+    }
+
+.card-team img {
+  width: 100%; /* Ensures the image takes up the full width of the card */
+  height: 300px; /* Sets a fixed height for consistency */
+  object-fit: fill; /* Stretches the image to fully fit the card */
+  border-radius: 8px; /* Optional: Adds rounded corners to the image */
+  background-color: #f8f9fa; /* Optional: Adds a light background for empty space */
+}
+
+  </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
     <header class="header_area">
-      <div class="top_menu row m0"></div>
-      <div class="main_menu">
-        <nav class="navbar navbar-expand-lg navbar-light">
-          <div class="container">
-            <a class="navbar-brand logo_h" style="width: 200px;" href="/"
-              ><img src="{% static 'core/img/logo1.png' %}" alt=""
-            /></a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <div
-              class="collapse navbar-collapse offset"
-              id="navbarSupportedContent"
-            >
-              <ul class="nav navbar-nav menu_nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'doctors' %}">Doctors</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'reg' %}">Register</a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-
-    <section class="banner_area">
-      <div class="banner_inner d-flex align-items-center">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
         <div class="container">
-          <div
-            class="banner_content d-md-flex justify-content-between align-items-center"
-          >
-            <div class="mb-3 mb-md-0">
-              <h2 style="margin-top: 70px;"> Doctors</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="team-area area-padding">
-      <div class="container">
-        <div class="area-heading row">
-          <div class="col-md-5 col-xl-4">
-            <h3>
-              Experience Doctors
-            </h3>
-          </div>
-          <div class="col-md-7 col-xl-8">
-            <p>
-              Our doctors are skilled, caring, and dedicated. They work tirelessly to heal and improve lives, serving as beacons of expertise and compassion.
-            </p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/4.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Hadi Rida</a></h3>
-                <p>Neurologist</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone" aria-hidden="true"></i
-                    >+961 81 867 632</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/6.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Dima Abduallah</a></h3>
-                <p>Pediatrician</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone" aria-hidden="true"></i
-                    >+961 76 731 456</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/9.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Nidal El-Khazen</a></h3>
-                <p>Dermatologist</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone" aria-hidden="true"></i
-                    >+961 78 889 806</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                      
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/8.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Mira Alaw</a></h3>
-                <p>Cardiologist</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone" aria-hidden="true"></i
-                    >+961 70 629 420</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                      
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/10.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Mohammad Dalli</a></h3>
-                <p>Eye Specialist</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone"></i>+961 71 213 145</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                      
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card card-team">
-              <img
-                class="card-img rounded-0"
-                src="{% static 'core/img/team/5.jpg' %}"
-                alt=""
-              />
-              <div class="card-team__body text-center">
-                <h3><a href="#">Dr Fawzi Sandkly</a></h3>
-                <p>Pharmacist</p>
-                <div class="team-footer d-flex justify-content-between">
-                  <a class="dn_btn" href=""
-                    ><i class="fa fa-phone"></i>+961 78 944 428</a
-                  >
-                  <ul class="card-team__social">
-                    <li>
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </li>
-                    <li>
-                     
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer-area area-padding-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-sm-6 single-footer-widget">
-            <h4>Quick Links</h4>
-            <ul>
-             
-              <li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+          <!-- Logo -->
+          <a class="navbar-brand logo_h" href="/">
+            <img src="{% static 'core/img/logo1.png' %}" alt="Logo">
+          </a>
+  
+          <!-- Hamburger button for mobile -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <!-- Collapsible navigation menu -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto text-center">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'filter_doctors' %}?specialty=all">Doctors</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'reg' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
             </ul>
           </div>
-         
-          <div class="col-lg-4 col-md-6 single-footer-widget">
-            <h4>Newsletter</h4>
-            <p>Subscribe to our Newsletter</p>
-            <div class="form-wrap" id="mc_embed_signup">
-              <form
-                target="_blank"
-                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                method="get"
-                class="form-inline"
-              >
-                <input
-                  class="form-control"
-                  name="EMAIL"
-                  placeholder="Your Email Address"
-                  onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Your Email Address'"
-                  required=""
-                  type="email"
-                />
-                <button class="click-btn btn btn-default">
-                  <i class="ti-arrow-right"></i>
-                </button>
-                <div style="position: absolute; left: -5000px">
-                  <input
-                    name="b_36c4fd991d266f23781ded980_aefe40901a"
-                    tabindex="-1"
-                    value=""
-                    type="text"
-                  />
-                </div>
-
-                <div class="info"></div>
-              </form>
-            </div>
-          </div>
         </div>
-        <div class="row footer-bottom d-flex justify-content-between">
-          <p class="col-lg-8 col-sm-12 footer-text m-0">
-            Copyright &copy;
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            All rights reserved
-          </p>
-          <div class="col-lg-4 col-sm-12 footer-social">
-            <a href=""><i class="fab fa-facebook-f"></i></a>
-            <a href=""><i class="fab fa-twitter"></i></a>
-            <a href=""><i class="fab fa-dribbble"></i></a>
-            <a href=""><i class="fab fa-linkedin"></i></a>
-          </div>
+      </nav>
+    </header>
+  
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+ 
+  <!-- Filter Section -->
+  <section class="filter-area py-4" style=" margin-top: 50px">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 class="mb-4">Find Your Doctor </h4>
+          <form method="get" action="{% url 'filter_doctors' %}" class="form-inline">
+            <!-- Dropdown -->
+            <div class="input-group mb-3" style="flex-grow: 1;">
+              <select
+                class="custom-select filter-dropdown"
+                name="specialty"
+                id="specialtySelect"
+              >
+              <option value="all" {% if not specialty or specialty == 'all' %}selected{% endif %}>All Specialties</option>
+              <option value="allergy_immunology" {% if specialty == 'allergy_immunology' %}selected{% endif %}>Allergy and Immunology</option>
+              <option value="anesthesiology" {% if specialty == 'anesthesiology' %}selected{% endif %}>Anesthesiology</option>
+              <option value="cardiology" {% if specialty == 'cardiology' %}selected{% endif %}>Cardiology</option>
+              <option value="cardiothoracic_surgery" {% if specialty == 'cardiothoracic_surgery' %}selected{% endif %}>Cardiothoracic Surgery</option>
+              <option value="critical_care" {% if specialty == 'critical_care' %}selected{% endif %}>Critical Care Medicine</option>
+              <option value="dermatology" {% if specialty == 'dermatology' %}selected{% endif %}>Dermatology</option>
+              <option value="emergency_medicine" {% if specialty == 'emergency_medicine' %}selected{% endif %}>Emergency Medicine</option>
+              <option value="endocrinology" {% if specialty == 'endocrinology' %}selected{% endif %}>Endocrinology</option>
+              <option value="family_medicine" {% if specialty == 'family_medicine' %}selected{% endif %}>Family Medicine</option>
+              <option value="gastroenterology" {% if specialty == 'gastroenterology' %}selected{% endif %}>Gastroenterology</option>
+              <option value="general_practice" {% if specialty == 'general_practice' %}selected{% endif %}>General Practice</option>
+              <option value="general_surgery" {% if specialty == 'general_surgery' %}selected{% endif %}>General Surgery</option>
+              <option value="geriatrics" {% if specialty == 'geriatrics' %}selected{% endif %}>Geriatrics</option>
+              <option value="hematology" {% if specialty == 'hematology' %}selected{% endif %}>Hematology</option>
+              <option value="infectious_disease" {% if specialty == 'infectious_disease' %}selected{% endif %}>Infectious Disease</option>
+              <option value="internal_medicine" {% if specialty == 'internal_medicine' %}selected{% endif %}>Internal Medicine</option>
+              <option value="nephrology" {% if specialty == 'nephrology' %}selected{% endif %}>Nephrology</option>
+              <option value="neurology" {% if specialty == 'neurology' %}selected{% endif %}>Neurology</option>
+              <option value="neurosurgery" {% if specialty == 'neurosurgery' %}selected{% endif %}>Neurosurgery</option>
+              <option value="nuclear_medicine" {% if specialty == 'nuclear_medicine' %}selected{% endif %}>Nuclear Medicine</option>
+              <option value="obstetrics_gynecology" {% if specialty == 'obstetrics_gynecology' %}selected{% endif %}>Obstetrics and Gynecology</option>
+              <option value="oncology" {% if specialty == 'oncology' %}selected{% endif %}>Oncology</option>
+              <option value="ophthalmology" {% if specialty == 'ophthalmology' %}selected{% endif %}>Ophthalmology</option>
+              <option value="orthopedic_surgery" {% if specialty == 'orthopedic_surgery' %}selected{% endif %}>Orthopedic Surgery</option>
+              <option value="otolaryngology" {% if specialty == 'otolaryngology' %}selected{% endif %}>Otolaryngology (ENT)</option>
+              <option value="palliative_care" {% if specialty == 'palliative_care' %}selected{% endif %}>Palliative Care</option>
+              <option value="pathology" {% if specialty == 'pathology' %}selected{% endif %}>Pathology</option>
+              <option value="pediatrics" {% if specialty == 'pediatrics' %}selected{% endif %}>Pediatrics</option>
+              <option value="plastic_surgery" {% if specialty == 'plastic_surgery' %}selected{% endif %}>Plastic Surgery</option>
+              <option value="psychiatry" {% if specialty == 'psychiatry' %}selected{% endif %}>Psychiatry</option>
+              <option value="pulmonology" {% if specialty == 'pulmonology' %}selected{% endif %}>Pulmonology</option>
+              <option value="radiology" {% if specialty == 'radiology' %}selected{% endif %}>Radiology</option>
+              <option value="rheumatology" {% if specialty == 'rheumatology' %}selected{% endif %}>Rheumatology</option>
+              <option value="sports_medicine" {% if specialty == 'sports_medicine' %}selected{% endif %}>Sports Medicine</option>
+              <option value="thoracic_surgery" {% if specialty == 'thoracic_surgery' %}selected{% endif %}>Thoracic Surgery</option>
+              <option value="urology" {% if specialty == 'urology' %}selected{% endif %}>Urology</option>
+              <option value="vascular_surgery" {% if specialty == 'vascular_surgery' %}selected{% endif %}>Vascular Surgery</option>
+            </select>
+            
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
         </div>
       </div>
-    </footer>
+    </div>
+  </section>
 
-   
-  </body>
+  <!-- Doctors Section -->
+  <section class="team-area area-padding">
+    <div class="container">
+      <div class="area-heading row mb-4">
+        <div class="col-md-5 col-xl-4">
+          <h3>Experienced Doctors</h3>
+        </div>
+        <div class="col-md-7 col-xl-8">
+          <p>
+            Our doctors are skilled professionals, dedicated to ensuring the best outcomes for patients with compassion and care.
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        {% if doctors %}
+          {% for d in doctors %}
+            {% if d.specialty %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card card-team" data-department="{{ d.specialty|lower }}">
+                <!-- Doctor Avatar -->
+                <img
+                  src="{% if d.avatar %}{{ d.avatar.url }}{% else %}{% static 'core/img/team/nopfp.png' %}{% endif %}"
+                  class="card-img-top"
+                  alt="{{ d.full_name }}"
+                />
+                <!-- Doctor Details -->
+                <div class="card-body text-center">
+                  <h5 class="card-title">{{ d.full_name }}</h5>
+                  <p class="card-text">
+                    <strong>Specialty:</strong> {{ d.specialty }} <br />
+                    <strong>Contact:</strong> {{ d.contact_info }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+        <div class="col-md-12 text-center">
+          <p class="text-muted">No doctors found for the selected specialty.</p>
+        </div>
+        {% endif %}
+      </div>
+  </section>
+
+<!-- Footer Section -->
+<footer class="bg-primary text-white pt-5 pb-3 mt-5" style="background-color: #0066cc;">
+
+  <div class="container">
+      <div class="row">
+          <!-- Quick Links (Left Side) -->
+          <div class="col-md-4">
+              <h4 class="font-weight-bold mb-3">Quick Links</h4>
+              <ul class="list-unstyled">
+                  <li><a href="/" class="text-white" style="text-decoration: none;">Home</a></li>
+                  <li><a href="/about" class="text-white" style="text-decoration: none;">About Us</a></li>
+                  <li><a href="{% url 'filter_doctors' %}?specialty=all" class="text-white" style="text-decoration: none;" >Doctors</a></li>
+                  <li><a href="{% url 'privacy' %}" class="text-white" style="text-decoration: none;" >Privacy Policy</a></li>
+                  <li><a href="{% url 'terms_of_service' %}" class="text-white" style="text-decoration: none;" >Terms of Service</a></li>
+              </ul>
+          </div>
+
+          <!-- Contact Information (Middle Section) -->
+          <div class="col-md-4">
+              <h4 class="font-weight-bold mb-3">Contact Information</h4>
+              <ul class="list-unstyled">
+                  <li><a href="mailto:support@example.com" class="text-white" style="text-decoration: none;">Responsivehealthcaresystem@gmail.com</a></li>
+                  <li><a href="tel:+123456789" class="text-white" style="text-decoration: none;">+1 234 567 89</a></li>
+                  <li>Beirut, Lebanon</li>
+              </ul>
+          </div>
+
+          <!-- Social Media & Footer Bottom (Right Side) -->
+          <div class="col-md-4">
+            <h4 class="font-weight-bold mb-3">Follow Us</h4>
+            <div class="d-flex flex-column align-items-start">
+                <div class="d-flex align-items-center mb-3">
+                    <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-facebook-f"></i></a>
+                    <span class="text-white">Facebook - Responsive Healthcare System</span>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-twitter"></i></a>
+                    <span class="text-white">Twitter - Responsive Healthcare System</span>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-linkedin"></i></a>
+                    <span class="text-white">LinkedIn - Responsive Healthcare System</span>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <a href="#" class="text-white mr-3" style="font-size: 24px;"><i class="fab fa-instagram"></i></a>
+                    <span class="text-white">Instagram - Responsive Healthcare System</span>
+                </div>
+          </div>
+      </div>
+
+
+   <!-- Footer Bottom Section (Centered Text) -->
+<div class="row footer-bottom d-flex justify-content-center text-center mt-4" style="border-top: 1px solid #fff; padding-top: 15px;">
+  <p class="footer-text m-0">
+      &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved.
+  </p>
+</div>
+
+</footer>
+  
+</body>
 </html>

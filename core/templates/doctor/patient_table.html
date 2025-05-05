@@ -1,0 +1,163 @@
+{% extends 'doctor/base.html' %}
+
+{% block body %}
+
+<style>
+    .table-custom-header {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .table-custom-body td {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .table-custom-body a {
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .table-custom-body a:hover {
+        text-decoration: underline;
+    }
+
+    .table-custom-body .text-muted {
+        color: #6c757d;
+    }
+
+    .table-custom-badge {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .alert {
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        table-layout: fixed;
+    }
+</style>
+
+<!-- Patient Profile Section -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="shadow-sm">
+            <div class="card-header bg-info text-white text-center">
+                <h4 class="mb-0"><i class="fas fa-user-injured"></i> Patient Profiles</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle" id="patientTable">
+                        <thead class="table-light table-custom-header">
+                            <tr class="text-center">
+                                <th scope="col"><i class="fas fa-id-badge"></i> Patient ID</th>
+                                <th scope="col"><i class="fas fa-user"></i> Name</th>
+                                <th scope="col"><i class="fas fa-hospital"></i> Disease</th>
+                                <th scope="col"><i class="fas fa-user-md"></i> Checked By</th>
+                                <th scope="col" onclick="sortTable(4)" id="dateColumn">
+                                    <i class="fas fa-calendar-alt"></i> Created On
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-custom-body">
+                            {% for d in disease %}
+                            <tr>
+                                <td class="text-center"><strong>{{ d.patient.id }}</strong></td>
+                                <td>
+                                    {% if d.patient.id %}
+                                    <a href="{% url 'patient_profile' d.patient.id %}">
+                                        {{ d.patient.profile.full_name }}
+                                    </a>
+                                    {% else %}
+                                    <span class="text-muted">{{ d.patient.username }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="https://www.google.com/search?q={{ d.disease }}" target="_blank">{{ d.disease }}</a>
+                                    </strong>
+                                </td>
+                                <td class="text-center">
+                                    {% if d.checked_by %}
+                                        <span class="badge bg-success text-white">
+                                            Checked By: {{ d.checked_by.profile.full_name }}
+                                        </span>
+                                    {% else %}
+                                        <form method="post" action="">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="record_id" value="{{ d.id }}">
+                                            <button type="submit" class="btn btn-sm btn-primary">Mark as Checked</button>
+                                        </form>
+                                    {% endif %}
+                                </td>                                
+                                <td class="text-center">
+                                    {% if d.created_on %}
+                                    <span class="badge bg-info text-white table-custom-badge">
+                                        {{ d.created_on|date:"F j, Y, g:i A" }}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-muted">No date available</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if not disease %}
+                <div class="text-center text-muted">
+                    <i class="fas fa-exclamation-circle"></i> No patients found.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Sorting -->
+<script>
+    function sortTable(columnIndex) {
+        let table = document.getElementById("patientTable");
+        let rows = Array.from(table.rows).slice(1); // Exclude header row
+        let sortedRows = rows.sort((a, b) => {
+            let dateA = new Date(a.cells[columnIndex].innerText.trim());
+            let dateB = new Date(b.cells[columnIndex].innerText.trim());
+            return dateB - dateA; // Sort in descending order (newest first)
+        });
+
+        let tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+
+    // Automatically sort the table by Created On (newest first) on page load
+    document.addEventListener("DOMContentLoaded", function () {
+        sortTable(4);
+    });
+</script>
+
+{% endblock %}

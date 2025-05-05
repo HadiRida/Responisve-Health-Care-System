@@ -1,0 +1,190 @@
+{% extends 'doctor/base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    <br>
+    <h2 class="font-weight-bold">Patient Profile: {{ patient.profile.full_name }}</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4 text-center">
+            {% if patient.profile.avatar %}
+                <img src="{{ patient.profile.avatar.url }}" alt="Profile Picture" class="img-fluid rounded profile-img"
+                     style="width: 250px; height: 300px; object-fit: cover; border: 2px solid #007bff; margin-top: 50px;">
+            {% else %}
+                <img src="{% static 'core/img/team/nopfp.png' %}" alt="Default Profile Picture" class="img-fluid rounded profile-img"
+                     style="width: 250px; height: 300px; object-fit: cover; border: 2px solid #007bff; margin-top: 50px;">
+            {% endif %}
+            <p class="mt-2 text-muted" style="font-size: 0.9rem;">Patient Profile Picture</p>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Patient Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Patient ID</th>
+                            <td>{{ patient.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ patient.profile.full_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Contact Information</th>
+                            <td>{{ patient.profile.contact_info }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td>{{ patient.profile.birth_date }}</td>
+                        </tr>
+                        <tr>
+                            <th>Age</th>
+                            <td>{{ patient.profile.age }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td>{{ patient.profile.gender }}</td>
+                        </tr>
+                        <tr>
+                            <th>Allergies</th>
+                            <td>{{ patient.profile.allergies }}</td>
+                        </tr>
+                        <tr>
+                            <th>Current Medications</th>
+                            <td>{{ patient.profile.medications }}</td>
+                        </tr>
+                        <tr>
+                            <th>Medical History</th>
+                            <td>{{ patient.profile.medical_history }}</td>
+                        </tr>
+                        <tr>
+                            <th>Family Medical History</th>
+                            <td>{{ patient.profile.family_history }}</td>
+                        </tr>
+                        <tr>
+                            <th>Lifestyle (e.g., smoking, alcohol, exercise)</th>
+                            <td>{{ patient.profile.lifestyle }}</td>
+                        </tr>
+                    </table>
+
+                    <div class="text-right mb-3">
+                        <a href="{% url 'generate_profile_pdf' profile.id %}" class="btn btn-outline-primary">
+                            <i class="fas fa-file-pdf"></i> Download Profile PDF
+                        </a>
+                        <a href="{% url 'edit_patient_profile' patient.profile.id %}" class="btn btn-outline-warning ml-2">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Symptoms</h3>
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Symptoms Information</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="symptomsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)"><i class="fas fa-calendar-day"></i> Diagnosis Date</th>
+                        <th>Disease</th>
+                        <th>Doctor's Diagnosis</th>
+                        <th>Symptoms</th>
+                        <th>Status</th>
+                        <th>Approve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in disease|dictsortreversed:"created_on" %}
+                    <tr>
+                        <td data-date="{{ d.created_on|date:'Y-m-d H:i:s' }}">
+                            {{ d.created_on|date:"F j, Y, g:i A" }}
+                        </td>
+                        <td>{{ d.disease }}</td>
+                        <td>
+                            <form method="post" action="{% url 'add_doctor_diagnosis' d.id %}">
+                                {% csrf_token %}
+                                <textarea name="doctor_diagnosis" class="form-control" rows="2" placeholder="Enter your diagnosis" required>{{ d.disease_by_doctor }}</textarea>
+                                <button type="submit" class="btn btn-{{ d.disease_by_doctor|yesno:'warning,primary' }} btn-sm mt-2">
+                                    {{ d.disease_by_doctor|yesno:'Update,Save' }}
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled mb-0">
+                                <li>{{ d.s1 }}</li>
+                                <li>{{ d.s2 }}</li>
+                                <li>{{ d.s3 }}</li>
+                                <li>{{ d.s4 }}</li>
+                                <li>{{ d.s5 }}</li>
+                                {% if d.additional_symptoms %}
+                                    {% for symptom in d.additional_symptoms %}
+                                        <li>{{ symptom }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </td>
+                        <td>
+                            {% if d.is_approved %}
+                                <span class="badge badge-success">Approved</span>
+                            {% else %}
+                                <span class="badge badge-danger">Not Approved</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not d.is_approved %}
+                                <form method="post" action="{% url 'approve_disease' d.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+                            {% else %}
+                                <span class="badge badge-secondary">Already Approved</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3 class="mt-5">Disease History</h3>
+    <div class="accordion" id="diseaseAccordion">
+        {% for d in disease|dictsortreversed:"created_on" %}
+        <div class="card">
+            <div class="card-header" id="heading{{ forloop.counter }}">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="{{ forloop.first }}" aria-controls="collapse{{ forloop.counter }}">
+                        {{ d.disease }}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#diseaseAccordion">
+                <div class="card-body">
+                    <strong>Diagnosis Date:</strong> {{ d.created_on|date:"F j, Y, g:i A" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById("symptomsTable");
+            const rows = Array.from(table.rows).slice(1);
+            rows.sort((a, b) => {
+                const aDate = new Date(a.cells[columnIndex].dataset.date);
+                const bDate = new Date(b.cells[columnIndex].dataset.date);
+                return bDate - aDate;
+            });
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+        }
+    </script>
+</div>
+{% endblock %}

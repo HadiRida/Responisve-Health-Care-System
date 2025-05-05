@@ -1,65 +1,208 @@
-{% extends 'base.html' %}
 {% load static %}
-
 {% block body %}
-<body style="background-image: url('{% static 'core/img/background/bg_4.jpg' %}'); background-repeat: no-repeat; background-size: cover;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .navbar-brand img {
+      max-width: 200px;
+    }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4"></div>
+    body {
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "core/img/registerbg.png" %}');
+      background-size: cover;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
 
-        <div class="col-sm-4" style="padding-top: 20px">
-            <div class="card body" style="padding: 20px; background-color: rgb(255, 255, 255);" id="login_card">
-                <h4 class="alert alert-info" style="color: black; background-color: white; border-color: white; text-align: left; font-weight: bold;">Registration Form</h4>
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
 
-                <div class="reg_form">
-                    <form method="POST" action="{% url 'reg_user' %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label class="col-form-label" style="font-weight: bold;">Username</label>
-                            <div class="row">
-                                <div class="col"><input type="text" class="form-control" name="username" placeholder="Enter Username" value="" required="" style="border-color: black;"></div>
-                            </div>          
-                        </div>
+    .form-control {
+      border-radius: 30px;
+      border-color: #007bff;
+      height: 45px;
+      padding: 10px;
+    }
 
-                        <div class="form-group">
-                            <label class="col-form-label" style="font-weight: bold;">Email</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="email" class="form-control" name="email" placeholder="Enter Email" required="" value="" style="border-color: black;">
-                                </div>
-                            </div>          
-                        </div>
+    .btn-outline-secondary {
+      background-color: #007bff;
+      color: white;
+      margin-left: 10px;
+      border-radius: 30px;
+    }
 
-                        <div class="form-group">
-                            <label class="col-form-label" style="font-weight: bold;">Password</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="password" class="form-control" name="password" placeholder="Enter Password" required="" value="" style="border-color: black;">
-                                </div>
-                            </div>          
-                        </div>
+    .btn-primary {
+      padding: 12px 30px;
+      border-radius: 30px;
+      background-color: #007bff;
+      border-color: #007bff;
+      transition: background-color 0.3s ease-in-out;
+    }
 
-                        <button type="submit" id="reg_btn" class="btn btn-primary">Register</button>
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px !important;
+      }
 
-                        <br>
-                        <br>
-                        <div class="form-group">
-                            {% if messages %}
-                            <div class="messages">
-                                {% for message in messages %}
-                                    <div class="alert alert-success" style="color:green;"> {{ message }}</div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                    </form>
-                </div>
+      .container-register {
+        padding: 40px 20px;
+      }
+    }
 
-            </div>
-        </div>
+    /* Icon Style */
+    .input-group-text {
+      background-color: transparent;
+      border-color: #007bff;
+      border-radius: 30px;
+    }
 
-        <div class="col-sm-4"></div>
+    .input-group .fa {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header_area">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+    <div class="container">
+      <a class="navbar-brand logo_h" href="/">
+        <img src="{% static 'core/img/logo1.png' %}" alt="Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto text-center">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'filter_doctors' %}?specialty=all">Doctors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'reg' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+</header>
+
+<div class="container container-register d-flex justify-content-center align-items-start pt-5" style="min-height: 100vh;">
+    <div class="row w-100 justify-content-center">
+    <div class="col-lg-5 col-md-8 col-sm-10">
+      <div class="card shadow-lg p-5">
+        <h4 class="alert alert-info text-center" style="color: black; background-color: transparent; border-color: transparent; font-weight: bold; margin-bottom: 20px;">
+          Registration Form
+        </h4>
+
+        <form method="POST" action="{% url 'reg_user' %}" onsubmit="return validateForm()">
+          {% csrf_token %}
+
+          <div class="form-group mb-4">
+            <label class="col-form-label" style="color: black; font-weight: bold;">Username</label>
+            <div class="input-group">
+              <div class="input-group-text"><i class="fa fa-user"></i></div>
+              <input type="text" class="form-control form-control-lg" name="username" placeholder="Enter Username" required>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="col-form-label" style="color: black; font-weight: bold;">Email</label>
+            <div class="input-group">
+              <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+              <input type="email" class="form-control form-control-lg" name="email" placeholder="Enter Email" required>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="col-form-label" style="color: black; font-weight: bold;">Password</label>
+            <div class="input-group">
+              <div class="input-group-text"><i class="fa fa-lock"></i></div>
+              <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Enter Password" required>
+              <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('password')">Show</button>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="col-form-label" style="color: black; font-weight: bold;">Re-enter Password</label>
+            <div class="input-group">
+              <div class="input-group-text"><i class="fa fa-lock"></i></div>
+              <input type="password" class="form-control form-control-lg" name="password_confirm" id="password_confirm" placeholder="Re-enter Password" required>
+              <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('password_confirm')">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg w-100">
+            Register
+          </button>
+
+          {% if messages %}
+          <div class="form-group mt-4">
+            <div class="messages">
+              {% for message in messages %}
+              <div class="alert alert-danger text-center" style="border-radius: 30px; padding: 10px; color: red; font-weight: bold;">
+                {{ message }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  function togglePasswordVisibility(fieldId) {
+    var passwordField = document.getElementById(fieldId);
+    passwordField.type = passwordField.type === "password" ? "text" : "password";
+  }
+
+  function validateForm() {
+    var password = document.getElementsByName('password')[0].value;
+    var passwordConfirm = document.getElementsByName('password_confirm')[0].value;
+
+    if (password !== passwordConfirm) {
+      alert("Passwords do not match.");
+      return false;
+    }
+
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long.");
+      return false;
+    }
+
+    var specialCharPattern = /[^a-zA-Z0-9]/;
+    if (!specialCharPattern.test(password)) {
+      alert("Password must include at least one special character.");
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 {% endblock %}
